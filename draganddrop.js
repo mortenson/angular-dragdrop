@@ -126,8 +126,14 @@
                     var transferDataObject = {data: dragData, channel: sendChannel}
                     var transferDataText = angular.toJson(transferDataObject);
 
-                    e.dataTransfer.setData('text', transferDataText);
-                    e.dataTransfer.effectAllowed = 'copyMove';
+                    if (e.dataTransfer) {
+                        e.dataTransfer.setData('text', transferDataText);
+                        e.dataTransfer.effectAllowed = 'copyMove';
+                    }
+                    else if (e.originalEvent.dataTransfer){
+                        e.originalEvent.dataTransfer.setData('text', transferDataText);
+                        e.originalEvent.dataTransfer.effectAllowed = 'copyMove';
+                    }
 
                     $rootScope.$broadcast('ANGULAR_DRAG_START', e, sendChannel, transferDataObject);
                 }
